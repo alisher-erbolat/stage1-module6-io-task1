@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file) throws FileNotFoundException {
+    public Profile getDataFromFile(File file){
 
         String[] allStr = new String[10];
 
@@ -28,10 +28,8 @@ public class FileReader {
                 }
             }
             allStr = str.trim().split(" ");
-        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
         }
         return new Profile(allStr[0],Integer.parseInt(allStr[1]),allStr[2],Long.parseLong(allStr[3]));
     }
