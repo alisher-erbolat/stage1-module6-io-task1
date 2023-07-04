@@ -10,7 +10,7 @@ public class FileReader {
 
     public Profile getDataFromFile(File file) throws FileNotFoundException {
 
-        String[] allStr;
+        String[] allStr = new String[10];
 
         try (FileInputStream fileInputStream = new FileInputStream(file)){
             String str = "";
@@ -28,8 +28,10 @@ public class FileReader {
                 }
             }
             allStr = str.trim().split(" ");
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
         return new Profile(allStr[0],Integer.parseInt(allStr[1]),allStr[2],Long.parseLong(allStr[3]));
     }
