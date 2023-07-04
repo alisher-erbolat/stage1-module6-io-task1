@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FileReader {
 
-    public static Profile getDataFromFile(File file){
+    public Profile getDataFromFile(File file){
 
         String[] allStr = new String[5];
 
@@ -27,7 +27,6 @@ public class FileReader {
                 }
             }
             str = new StringBuilder(str.substring(1));
-            System.out.println(str);
             allStr = str.toString().split(" ");
         } catch (IOException ex) {
             ex.printStackTrace();
