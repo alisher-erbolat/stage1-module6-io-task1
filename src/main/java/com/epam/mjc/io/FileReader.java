@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FileReader {
 
-    public static Profile getDataFromFile(File file) throws FileNotFoundException {
+    public Profile getDataFromFile(File file) throws FileNotFoundException {
 
         String[] allStr;
 
@@ -31,7 +31,7 @@ public class FileReader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         return new Profile(allStr[0],Integer.parseInt(allStr[1]),allStr[2],Long.parseLong(allStr[3]));
     }
+
 }
