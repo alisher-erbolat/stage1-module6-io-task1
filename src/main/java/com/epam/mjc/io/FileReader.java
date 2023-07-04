@@ -1,36 +1,48 @@
 package com.epam.mjc.io;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 
 public class FileReader {
+    public Profile getDataFromFile(File file) {
+        String fileData = readFileData(file);
+        return parseProfileData(fileData);
+    }
 
-    public Profile getDataFromFile(File file){
-
-        String[] allStr = new String[5];
-
-        try (FileInputStream fileInputStream = new FileInputStream(file)){
-            StringBuilder str = new StringBuilder();
-            int ch;
-            boolean add = false;
-            while((ch=fileInputStream.read())!=-1){
-                if ((char)ch == ':') {
-                    add = true;
-                }
-                else if ((char)ch == Character.LINE_SEPARATOR) {
-                    add = false;
-                }
-                else if (add){
-                    str.append((char)ch);
-                }
+    private String readFileData(File file) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append(System.lineSeparator());
             }
-            str = new StringBuilder(str.substring(1));
-            allStr = str.toString().split(" ");
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return new Profile(allStr[0],Integer.parseInt(allStr[1]),allStr[2],Long.parseLong(allStr[3]));
+        return stringBuilder.toString();
+    }
+
+    private Profile parseProfileData(String fileData) {
+        String[] lines = fileData.split(System.lineSeparator());
+        String name = null;
+        int age = 0;
+        String email = null;
+        Long phone = null;
+
+        for (String line : lines) {
+            if (line.startsWith("Name:")) {
+                name = line.substring(line.indexOf(":") + 1).trim();
+            } else if (line.startsWith("Age:")) {
+                age = Integer.parseInt(line.substring(line.indexOf(":") + 1).trim());
+            } else if (line.startsWith("Email:")) {
+                email = line.substring(line.indexOf(":") + 1).trim();
+            } else if (line.startsWith("Phone:")) {
+                phone = Long.parseLong(line.substring(line.indexOf(":") + 1).trim());
+            }
+        }
+
+        return new Profile(name, age, email, phone);
     }
 }
